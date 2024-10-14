@@ -1,0 +1,21 @@
+version: "2.4"
+
+name: watchtower-localhost
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower.localhost
+    restart: always
+
+    mem_limit: 32M
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
+    # Update containers at 4.15am and delete old images after update
+    command: --label-enable --cleanup --schedule "0 15 4 * * *"
